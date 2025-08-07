@@ -17,7 +17,9 @@ def handle_move_movements(hand_landmarks) -> None:
     is_pointing = is_index_pointing(hand_landmarks) and not is_extended(middle_finger_tip, middle_finger_pip, middle_finger_mcp)
 
     if is_pointing:
-        pyautogui.moveTo(index_tip.x * screen_width, index_tip.y * screen_height)
+        x_pos, y_pos = index_tip.x * screen_width, index_tip.y * screen_height
+        print(f"Position to move to {x_pos}, {y_pos}")
+        pyautogui.moveTo(x_pos, y_pos)
 
 has_m1 = False
 
@@ -43,6 +45,16 @@ SCROLL_SENSETIVITY = 2000
 
 def handle_mousescroll(hand_landmarks) -> None:
     global past_middle_tip_y
+
+    ring_tip = hand_landmarks.landmark[16].y
+    ring_pip = hand_landmarks.landmark[14].y
+    ring_mcp = hand_landmarks.landmark[13].y
+
+    is_ring_extended = is_extended(ring_tip, ring_pip, ring_mcp)
+
+    if is_ring_extended:
+        past_middle_tip_y = None
+        return
 
     index_tip = hand_landmarks.landmark[8].y
     index_pip = hand_landmarks.landmark[6].y
