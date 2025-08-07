@@ -1,6 +1,9 @@
 import cv2
 import mediapipe as mp
-from utils import distance_2d, is_extended
+from pyautogui import size
+from GestureHandlers import handle_move_movements, handle_m1, handle_mousescroll
+
+screen_width, screen_height = size()
 
 # Setup MediaPipe hands + drawing utils
 mp_hands = mp.solutions.hands
@@ -11,6 +14,11 @@ cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     print("❌ Cannot access webcam.")
     exit()
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, screen_width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, screen_height)
+
+has_clicked = False
 
 # MediaPipe hands setup
 with mp_hands.Hands(
@@ -39,11 +47,10 @@ with mp_hands.Hands(
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
 
-                index_tip =  hand_landmarks.landmark[8]
-                index_pip = hand_landmarks.landmark[6]
-                index_mcp = hand_landmarks.landmark[5]
-
-                print(f"Is index extended? {is_extended(index_tip.y, index_pip.y, index_mcp.y)}")
+                # Gesture handlers
+                handle_move_movements(hand_landmarks)
+                handle_m1(hand_landmarks)
+                handle_mousescroll(hand_landmarks)
 
                 mp_drawing.draw_landmarks(
                     frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
