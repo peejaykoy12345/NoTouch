@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+from utils import distance_2d, is_extended
 
 # Setup MediaPipe hands + drawing utils
 mp_hands = mp.solutions.hands
@@ -37,6 +38,13 @@ with mp_hands.Hands(
         # Draw landmarks if any hands are found
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
+
+                index_tip =  hand_landmarks.landmark[8]
+                index_pip = hand_landmarks.landmark[6]
+                index_mcp = hand_landmarks.landmark[5]
+
+                print(f"Is index extended? {is_extended(index_tip.y, index_pip.y, index_mcp.y)}")
+
                 mp_drawing.draw_landmarks(
                     frame, hand_landmarks, mp_hands.HAND_CONNECTIONS
                 )

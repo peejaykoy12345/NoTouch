@@ -1,0 +1,42 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm project files
+.idea/
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python virtualenv tools
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Test/report files
+coverage.xml
+*.cover
+
+# Media files (optional)
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.png
+
+# Misc
+*.swp
